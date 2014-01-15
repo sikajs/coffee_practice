@@ -16,6 +16,7 @@ class TodoApp
     @$input = $('#new-todo')
     @$todoList = $('#todo-list')
 
+  # cleanup the list and show all of the items existed in the local storage
   displayItems: ->
     @clearItems()
     @addItem(localStorage.getObj(id)) for id in Object.keys(localStorage)
@@ -48,6 +49,7 @@ class TodoApp
       localStorage.removeItem($(this).data("id"))
     @displayItems()
 
+  # create a new todo item
   create: (e) ->
     val = ($.trim @$input.val())
     return unless e.which == 13 and val
@@ -63,11 +65,13 @@ class TodoApp
     @$input.val ''
     @displayItems()
 
+  # delete the item from local storage and the item will be removed from page
   destroy: (elem) ->
     id = $(elem).closest('li').data('id')
     localStorage.removeItem(id)
     @displayItems()
 
+  # change the completed status of the todo item
   toggle: (elem) ->
     id = $(elem).closest('li').data('id')
     item = localStorage.getObj(id)
